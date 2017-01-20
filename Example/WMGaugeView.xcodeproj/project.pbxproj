@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3E788DD61BDCEAC500F78D6A /* WMGaugeViewStyleFlatThin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E788DD51BDCEAC500F78D6A /* WMGaugeViewStyleFlatThin.m */; };
-		3E788DDF1BDCF58300F78D6A /* WMGaugeViewStyle3D.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E788DDE1BDCF58300F78D6A /* WMGaugeViewStyle3D.m */; };
 		3E788DE21BDCFE7F00F78D6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E788DE01BDCFE7F00F78D6A /* LaunchScreen.storyboard */; };
 		BE18403519197AE8002ACE81 /* WMGaugeView.m in Sources */ = {isa = PBXBuildFile; fileRef = BE18403419197AE8002ACE81 /* WMGaugeView.m */; };
 		BEE4441D189846A9002B489A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEE4441C189846A9002B489A /* Foundation.framework */; };
@@ -41,8 +40,6 @@
 		3E788DD41BDCEAC500F78D6A /* WMGaugeViewStyleFlatThin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMGaugeViewStyleFlatThin.h; sourceTree = "<group>"; };
 		3E788DD51BDCEAC500F78D6A /* WMGaugeViewStyleFlatThin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMGaugeViewStyleFlatThin.m; sourceTree = "<group>"; };
 		3E788DD71BDCEB0200F78D6A /* WMGaugeViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMGaugeViewStyle.h; sourceTree = "<group>"; };
-		3E788DDD1BDCF58300F78D6A /* WMGaugeViewStyle3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMGaugeViewStyle3D.h; sourceTree = "<group>"; };
-		3E788DDE1BDCF58300F78D6A /* WMGaugeViewStyle3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMGaugeViewStyle3D.m; sourceTree = "<group>"; };
 		3E788DE11BDCFE7F00F78D6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE18403319197AE8002ACE81 /* WMGaugeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMGaugeView.h; sourceTree = "<group>"; };
 		BE18403419197AE8002ACE81 /* WMGaugeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMGaugeView.m; sourceTree = "<group>"; };
@@ -99,8 +96,6 @@
 				3E788DD71BDCEB0200F78D6A /* WMGaugeViewStyle.h */,
 				3E788DD41BDCEAC500F78D6A /* WMGaugeViewStyleFlatThin.h */,
 				3E788DD51BDCEAC500F78D6A /* WMGaugeViewStyleFlatThin.m */,
-				3E788DDD1BDCF58300F78D6A /* WMGaugeViewStyle3D.h */,
-				3E788DDE1BDCF58300F78D6A /* WMGaugeViewStyle3D.m */,
 			);
 			name = WMGaugeView;
 			path = ../../WMGaugeView;
@@ -228,6 +223,10 @@
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Will™";
 				TargetAttributes = {
+					BEE44418189846A9002B489A = {
+						DevelopmentTeam = 4D49NLC4WA;
+						ProvisioningStyle = Manual;
+					};
 					BEE44439189846A9002B489A = {
 						TestTargetID = BEE44418189846A9002B489A;
 					};
@@ -282,7 +281,6 @@
 				BE18403519197AE8002ACE81 /* WMGaugeView.m in Sources */,
 				BEE44433189846A9002B489A /* ViewController.m in Sources */,
 				BEE4442D189846A9002B489A /* AppDelegate.m in Sources */,
-				3E788DDF1BDCF58300F78D6A /* WMGaugeViewStyle3D.m in Sources */,
 				BEE44429189846A9002B489A /* main.m in Sources */,
 				3E788DD61BDCEAC500F78D6A /* WMGaugeViewStyleFlatThin.m in Sources */,
 			);
@@ -417,11 +415,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4D49NLC4WA;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WMGaugeView/WMGaugeView-Prefix.pch";
 				INFOPLIST_FILE = "WMGaugeView/WMGaugeView-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.will-tm.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skylight.dad.gauge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5401aa5f-aa20-4c41-a19d-e9ba06129b63";
+				PROVISIONING_PROFILE_SPECIFIER = DADpersonaldevelopmentProfile;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -431,10 +432,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WMGaugeView/WMGaugeView-Prefix.pch";
 				INFOPLIST_FILE = "WMGaugeView/WMGaugeView-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.will-tm.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skylight.dad.gauge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

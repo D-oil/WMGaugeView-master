@@ -13,7 +13,7 @@
 
 @interface ViewController ()
 
-@property (strong, nonatomic) IBOutlet WMGaugeView *gaugeView;
+
 @property (strong, nonatomic) IBOutlet WMGaugeView *gaugeView2;
 
 @end
@@ -24,47 +24,46 @@
 {
     [super viewDidLoad];
     
-    _gaugeView.style = [WMGaugeViewStyle3D new];
-    _gaugeView.maxValue = 240.0;
-    _gaugeView.showRangeLabels = YES;
-    _gaugeView.rangeValues = @[ @50,                  @90,                @130,               @240.0              ];
-    _gaugeView.rangeColors = @[ RGB(232, 111, 33),    RGB(232, 231, 33),  RGB(27, 202, 33),   RGB(231, 32, 43)    ];
-    _gaugeView.rangeLabels = @[ @"VERY LOW",          @"LOW",             @"OK",              @"OVER FILL"        ];
-    _gaugeView.unitOfMeasurement = @"psi";
-    _gaugeView.showUnitOfMeasurement = YES;
-    _gaugeView.scaleDivisionsWidth = 0.008;
-    _gaugeView.scaleSubdivisionsWidth = 0.006;
-    _gaugeView.rangeLabelsFontColor = [UIColor blackColor];
-    _gaugeView.rangeLabelsWidth = 0.04;
-    _gaugeView.rangeLabelsFont = [UIFont fontWithName:@"Helvetica" size:0.04];
     
     _gaugeView2.style = [WMGaugeViewStyleFlatThin new];
     _gaugeView2.maxValue = 300.0;
     _gaugeView2.showInnerRim = YES;
-//    _gaugeView2.scaleDivisions = 10;
-//    _gaugeView2.scaleSubdivisions = 5;
+    _gaugeView2.scaleDivisions = 10;
+    _gaugeView2.scaleSubdivisions = 5;
     _gaugeView2.scaleStartAngle = 30;
     _gaugeView2.scaleEndAngle = 330;
-//    _gaugeView2.showScaleShadow = NO;
+    _gaugeView2.showScaleShadow = NO;
     _gaugeView2.scaleFont = [UIFont fontWithName:@"AvenirNext-UltraLight" size:0.065];
-//    _gaugeView2.scalesubdivisionsAligment = WMGaugeViewSubdivisionsAlignmentCenter;
-//    _gaugeView2.scaleSubdivisionsWidth = 0.004;
-//    _gaugeView2.scaleSubdivisionsLength = 0.004;
-//    _gaugeView2.scaleDivisionsWidth = 0.004;
-//    _gaugeView2.scaleDivisionsLength = 0.004;
+    _gaugeView2.scalesubdivisionsAligment = WMGaugeViewSubdivisionsAlignmentCenter;
+    _gaugeView2.scaleSubdivisionsWidth = 0.004;
+    _gaugeView2.scaleSubdivisionsLength = 0.004;
+    _gaugeView2.scaleDivisionsWidth = 0.004;
+    _gaugeView2.scaleDivisionsLength = 0.004;
     
-    [NSTimer scheduledTimerWithTimeInterval:2.0
-                                     target:self
-                                   selector:@selector(gaugeUpdateTimer:)
-                                   userInfo:nil
-                                    repeats:YES];
+//    [NSTimer scheduledTimerWithTimeInterval:2.0
+//                                     target:self
+//                                   selector:@selector(gaugeUpdateTimer:)
+//                                   userInfo:nil
+//                                    repeats:YES];
+}
+- (IBAction)change:(id)sender {
+    [self gaugeUpdateTimer:nil];
 }
 
 -(void)gaugeUpdateTimer:(NSTimer *)timer
 {
 //    _gaugeView.value = rand()%(int)_gaugeView.maxValue;
+
     [_gaugeView2 setValue:rand()%(int)_gaugeView2.maxValue animated:YES duration:1.6 completion:^(BOOL finished) {
         NSLog(@"gaugeView2 animation complete");
+    }];
+
+    [_gaugeView2 setTagTmpValue:arc4random()%(int)_gaugeView2.maxValue animated:YES duration:1.6 completion:^(BOOL finished) {
+        NSLog(@"gaugeView2 setTagTmpValue animation complete");
+    }];
+    
+    [_gaugeView2 setfoodTmpValue:arc4random()%(int)_gaugeView2.maxValue animated:YES duration:1.6 completion:^(BOOL finished) {
+        NSLog(@"gaugeView2 setTagTmpValue animation complete");
     }];
 }
 

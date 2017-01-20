@@ -33,10 +33,11 @@
  */
 @protocol WMGaugeViewStyle <NSObject>
 @required
-- (void)drawNeedleOnLayer:(CALayer*)layer inRect:(CGRect)rect;
+
+- (void)drawNeedleOnLayer:(CALayer*)layer withColor:(UIColor *)color inRect:(CGRect)rect;
 - (void)drawFaceWithContext:(CGContextRef)context inRect:(CGRect)rect;
 - (BOOL)needleLayer:(CALayer*)layer willMoveAnimated:(BOOL)animated duration:(NSTimeInterval)duration animation:(CAKeyframeAnimation*)animation;
 
-
+- (void)drawfoodNeedleOnLayer:(CALayer*)layer withColor:(UIColor *)color inRect:(CGRect)rect;
 
 @end

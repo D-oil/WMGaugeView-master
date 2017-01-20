@@ -15,19 +15,63 @@
 #define kCenterX            0.5
 #define kCenterY            0.5
 
-#define kNeedleColor        CGRGB(67, 0, 11)
-#define kNeedleScrewColor   CGRGB(68, 84, 105)
+
 
 @interface WMGaugeViewStyleFlatThin ()
 
 @property (nonatomic) CAShapeLayer *needleLayer;
-@property (nonatomic) CAShapeLayer *tagTmpLayer;
+
 
 @end
 
 @implementation WMGaugeViewStyleFlatThin
 
-- (void)drawNeedleOnLayer:(CALayer*)layer inRect:(CGRect)rect
+- (void)drawfoodNeedleOnLayer:(CALayer*)layer withColor:(UIColor *)color inRect:(CGRect)rect;
+{
+    _needleLayer = [CAShapeLayer layer];
+    UIBezierPath *needlePath = [UIBezierPath bezierPath];
+    
+    //三角形path
+    [needlePath moveToPoint:CGPointMake(rect.size.width/2 - kNeedleWidth / 3 * rect.size.width, 0)];
+    [needlePath addLineToPoint:CGPointMake(rect.size.width/2 + kNeedleWidth / 3 * rect.size.width , 0)];
+    [needlePath addLineToPoint:CGPointMake(FULLSCALE(kCenterX, kNeedleWidth))];
+    [needlePath closePath];
+    
+    _needleLayer.path = needlePath.CGPath;
+    _needleLayer.backgroundColor = [[UIColor clearColor] CGColor];
+    _needleLayer.fillColor = color.CGColor;
+    _needleLayer.strokeColor = kNeedleBlackColor;
+    _needleLayer.lineWidth = 1.2;
+    
+    // Needle shadow
+    _needleLayer.shadowColor = [[UIColor blackColor] CGColor];
+    _needleLayer.shadowOffset = CGSizeMake(-2.0, -2.0);
+    _needleLayer.shadowOpacity = 0.2;
+    _needleLayer.shadowRadius = 1.2;
+    
+    [layer addSublayer:_needleLayer];
+    
+    
+    //     Screw drawing
+    CAShapeLayer *screwLayer = [CAShapeLayer layer];
+    screwLayer.bounds = CGRectMake(FULLSCALE(kCenterX - kNeedleScrewRadius, kCenterY - kNeedleScrewRadius), FULLSCALE(kNeedleScrewRadius * 2.0, kNeedleScrewRadius * 2.0));
+    screwLayer.position = CGPointMake(FULLSCALE(kCenterX, kCenterY));
+    screwLayer.path = [UIBezierPath bezierPathWithOvalInRect:screwLayer.bounds].CGPath;
+    screwLayer.fillColor = kNeedleScrewColor;
+    
+    // Screw shadow
+    screwLayer.shadowColor = [[UIColor blackColor] CGColor];
+    screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
+    screwLayer.shadowOpacity = 0.2;
+    screwLayer.shadowRadius = 2.0;
+    
+    [layer addSublayer:screwLayer];
+    
+    
+    
+}
+
+- (void)drawNeedleOnLayer:(CALayer*)layer withColor:(UIColor *)color inRect:(CGRect)rect;
 {
     _needleLayer = [CAShapeLayer layer];
     UIBezierPath *needlePath = [UIBezierPath bezierPath];
@@ -40,8 +84,8 @@
     
     _needleLayer.path = needlePath.CGPath;
     _needleLayer.backgroundColor = [[UIColor clearColor] CGColor];
-    _needleLayer.fillColor = kNeedleColor;
-    _needleLayer.strokeColor = kNeedleColor;
+    _needleLayer.fillColor = color.CGColor;
+    _needleLayer.strokeColor = kNeedleBlackColor;
     _needleLayer.lineWidth = 1.2;
     
     // Needle shadow
@@ -52,31 +96,13 @@
     
     [layer addSublayer:_needleLayer];
     
-    
-    //tagTmpLayer
-    _tagTmpLayer = [CAShapeLayer layer];
- 
-    _tagTmpLayer.path = needlePath.CGPath;
-    _tagTmpLayer.backgroundColor = [[UIColor clearColor] CGColor];
-    _tagTmpLayer.fillColor   = [UIColor redColor].CGColor;
-    _tagTmpLayer.strokeColor = kNeedleColor;
-    _tagTmpLayer.lineWidth = 1.2;
-    
-    // Needle shadow
-    _tagTmpLayer.shadowColor = [[UIColor blackColor] CGColor];
-    _tagTmpLayer.shadowOffset = CGSizeMake(-2.0, -2.0);
-    _tagTmpLayer.shadowOpacity = 0.2;
-    _tagTmpLayer.shadowRadius = 1.2;
-    
-    [layer addSublayer:_tagTmpLayer];
-    
-    
-//     Screw drawing
+
+    //     Screw drawing
     CAShapeLayer *screwLayer = [CAShapeLayer layer];
     screwLayer.bounds = CGRectMake(FULLSCALE(kCenterX - kNeedleScrewRadius, kCenterY - kNeedleScrewRadius), FULLSCALE(kNeedleScrewRadius * 2.0, kNeedleScrewRadius * 2.0));
     screwLayer.position = CGPointMake(FULLSCALE(kCenterX, kCenterY));
     screwLayer.path = [UIBezierPath bezierPathWithOvalInRect:screwLayer.bounds].CGPath;
-    screwLayer.fillColor = CGRGB(253, 128, 25);
+    screwLayer.fillColor = kNeedleScrewColor;
     
     // Screw shadow
     screwLayer.shadowColor = [[UIColor blackColor] CGColor];
@@ -85,6 +111,7 @@
     screwLayer.shadowRadius = 2.0;
     
     [layer addSublayer:screwLayer];
+
 }
 
 - (void)drawFaceWithContext:(CGContextRef)context inRect:(CGRect)rect
@@ -129,5 +156,6 @@
     
     return YES;
 }
+
 
 @end

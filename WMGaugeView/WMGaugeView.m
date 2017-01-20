@@ -32,9 +32,15 @@
     /* Background image */
     UIImage *background;
     
+    /*background layer*/
+    CAShapeLayer *backgroundLayer;
+
+    
+    
     /* Needle layer */
     CALayer *rootNeedleLayer;
     CALayer *tagTemlayer;
+    CALayer *foodTemlayer;
     /* Annimation completion */
     void (^animationCompletion)(BOOL);
 }
@@ -88,7 +94,10 @@
     
     
     //value 代表指针所指值
-    _value = 0.0;
+//    _value = 0.0;
+     _grillValue = 0.0;
+    _TagValue = 0.0;
+    _foodValue = 0.0;
     _minValue = 0.0;
     _maxValue = 240.0;
     //？
@@ -157,8 +166,51 @@
  */
 - (void)drawRect:(CGRect)rect
 {
+//    if (background == nil)
+//    {
+//        // Create image context
+//        UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
+//        CGContextRef context = UIGraphicsGetCurrentContext();
+//        
+//        // Scale context for [0-1] drawings
+//        CGContextScaleCTM(context, rect.size.width , rect.size.height);
+//        
+//        // Draw gauge background in image context
+//        [self drawGauge:context];
+//        
+//        // Save background
+//        background = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+//    }
     
+    // Drawing background in view
+    [background drawInRect:rect];
+    
+    if (backgroundLayer == nil) {
+        
+        backgroundLayer = [CAShapeLayer layer];
+        
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        
+        [path addArcWithCenter:CGPointMake(self.frame.size.width / 2 , self.frame.size.height /2)
+                        radius:self.frame.size.width / 2
+                    startAngle:M_PI*0.65
+                      endAngle:M_PI*0.35
+                     clockwise:YES];
+        [path addArcWithCenter:CGPointMake(self.frame.size.width / 2 , self.frame.size.height /2)
+                                radius:(self.frame.size.width / 2 ) /2
+                            startAngle:M_PI*0.35
+                              endAngle:M_PI*0.65
+                     clockwise:NO];
+        [path closePath];
+    
+        backgroundLayer.path = path.CGPath;
+        backgroundLayer.fillColor = RGB(251, 222, 148).CGColor;
+        [self.layer addSublayer: backgroundLayer];
+        
+    }
 
+    //
     if (rootNeedleLayer == nil)
     {
         // Initialize needle layer
@@ -171,31 +223,42 @@
         // Draw needle
         [self drawNeedle];
         
+        
         // Set needle current value
-        [self setValue:_value animated:NO];
+        [self setValue:_grillValue animated:NO];
     }
     
-    if (background == nil)
-    {
-        // Create image context
-        UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
-        CGContextRef context = UIGraphicsGetCurrentContext();
+    if (tagTemlayer == nil) {
+        // Initialize needle layer
+        tagTemlayer = [CALayer new];
         
-        // Scale context for [0-1] drawings
-        CGContextScaleCTM(context, rect.size.width , rect.size.height);
-
-        // Draw gauge background in image context
-        [self drawGauge:context];
+        // For performance puporse, the needle layer is not scaled to [0-1] range
+        tagTemlayer.frame = self.bounds;
+        [self.layer addSublayer:tagTemlayer];
         
-        // Save background
-        background = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
+        // Draw needle
+        [self drawtagNeedle];
+        
+        // Set needle current value
+        [self setValue:_TagValue animated:NO];
     }
     
-    // Drawing background in view
-    [background drawInRect:rect];
-    
+    if (foodTemlayer == nil) {
+        // Initialize needle layer
+        foodTemlayer = [CALayer new];
+        
+        // For performance puporse, the needle layer is not scaled to [0-1] range
+        foodTemlayer.frame = self.bounds;
+        [self.layer addSublayer:foodTemlayer];
+        
+        // Draw needle
+        [self drawfoodNeedle];
+        
+        // Set needle current value
+        [self setValue:_foodValue animated:NO];
+    }
    
+
 }
 
 /**
@@ -204,6 +267,12 @@
 - (void)drawGauge:(CGContextRef)context
 {
     [self drawRim:context];
+    
+    if (_showRangeLabels)
+        [self drawRangeLabels:context];
+
+    if (_showScale)
+        [self drawScale:context];
     //画面板
     if (_showInnerBackground)
         [self drawFace:context];
@@ -211,11 +280,6 @@
     if (_showUnitOfMeasurement)
         [self drawText:context];
 
-    if (_showScale)
-        [self drawScale:context];
-
-    if (_showRangeLabels)
-        [self drawRangeLabels:context];
 }
 
 /**
@@ -364,9 +428,27 @@
 - (void)drawNeedle
 {
     if ([_style conformsToProtocol:@protocol(WMGaugeViewStyle)]) {
-        [_style drawNeedleOnLayer:rootNeedleLayer inRect:self.bounds];
+        [_style drawNeedleOnLayer:rootNeedleLayer withColor:[UIColor colorWithCGColor:kNeedleBlackColor]   inRect:self.bounds];
     }
 
+}
+/**
+ * tagTmp drawing
+ */
+- (void)drawtagNeedle
+{
+    if ([_style conformsToProtocol:@protocol(WMGaugeViewStyle)]) {
+        [_style drawNeedleOnLayer:tagTemlayer withColor:[UIColor colorWithCGColor:kNeedleOrangeColor] inRect:self.bounds];
+    }
+    
+}
+
+- (void)drawfoodNeedle
+{
+    if ([_style conformsToProtocol:@protocol(WMGaugeViewStyle)]) {
+        [_style drawfoodNeedleOnLayer:foodTemlayer withColor:[UIColor colorWithCGColor:kNeedleRedColor] inRect:self.bounds];
+    }
+    
 }
 
 
@@ -509,7 +591,7 @@
 /**
  * Update gauge value
  */
-- (void)updateValue:(float)value
+- (void)updateGrillValue:(float)value
 {
     // Clamp value if out of range
     if (value > _maxValue)
@@ -520,7 +602,40 @@
         value = value;
     
     // Set value
-    _value = value;
+    _grillValue = value;
+}
+
+/**
+ * Update gauge value
+ */
+- (void)updateTagValue:(float)value
+{
+    // Clamp value if out of range
+    if (value > _maxValue)
+        value = _maxValue;
+    else if (value < _minValue)
+        value = _minValue;
+    else
+        value = value;
+    
+    // Set value
+    _TagValue = value;
+}
+/**
+ * Update gauge value
+ */
+- (void)updatefoodValue:(float)value
+{
+    // Clamp value if out of range
+    if (value > _maxValue)
+        value = _maxValue;
+    else if (value < _minValue)
+        value = _minValue;
+    else
+        value = value;
+    
+    // Set value
+    _foodValue = value;
 }
 
 /**
@@ -554,10 +669,10 @@
 {
     animationCompletion = completion;
     
-    double lastValue = _value;
+    double lastValue = _grillValue;
     
-    [self updateValue:value];
-    double middleValue = lastValue + (((lastValue + (_value - lastValue) / 2.0) >= 0) ? (_value - lastValue) / 2.0 : (lastValue - _value) / 2.0);
+    [self updateGrillValue:value];
+    double middleValue = lastValue + (((lastValue + (_grillValue - lastValue) / 2.0) >= 0) ? (_grillValue - lastValue) / 2.0 : (lastValue - _grillValue) / 2.0);
     
     // Needle animation to target value
     // An intermediate "middle" value is used to make sure the needle will follow the right rotation direction
@@ -569,7 +684,7 @@
     animation.delegate = self;
     animation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:lastValue]  , 0, 0, 1.0)],
                          [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:middleValue], 0, 0, 1.0)],
-                         [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:_value]     , 0, 0, 1.0)]];
+                         [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:_grillValue]     , 0, 0, 1.0)]];
     
     if ([_style conformsToProtocol:@protocol(WMGaugeViewStyle)] == NO || [_style needleLayer:rootNeedleLayer willMoveAnimated:animated duration:duration animation:animation] == NO)
     {
@@ -578,6 +693,62 @@
     }
 }
 
+/**
+ * Update gauge value with animation, duration and fire a completion block
+ */
+- (void)setTagTmpValue:(float)value animated:(BOOL)animated duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion
+{
+    animationCompletion = completion;
+    
+    double lastValue = _TagValue;
+    
+    [self updateTagValue:value];
+    double middleValue = lastValue + (((lastValue + (_TagValue - lastValue) / 2.0) >= 0) ? (_TagValue - lastValue) / 2.0 : (lastValue - _TagValue) / 2.0);
+    
+    // Needle animation to target value
+    // An intermediate "middle" value is used to make sure the needle will follow the right rotation direction
+    
+    CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.removedOnCompletion = YES;
+    animation.duration = animated ? duration : 0.0;
+    animation.delegate = self;
+    animation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:lastValue]  , 0, 0, 1.0)],
+                         [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:middleValue], 0, 0, 1.0)],
+                         [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:_TagValue]     , 0, 0, 1.0)]];
+    
+    if ([_style conformsToProtocol:@protocol(WMGaugeViewStyle)] == NO || [_style needleLayer:tagTemlayer willMoveAnimated:animated duration:duration animation:animation] == NO)
+    {
+        tagTemlayer.transform = [[animation.values lastObject] CATransform3DValue];
+        [tagTemlayer addAnimation:animation forKey:kCATransition];
+    }
+}
+- (void)setfoodTmpValue:(float)value animated:(BOOL)animated duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion {
+    animationCompletion = completion;
+    
+    double lastValue = _foodValue;
+    
+    [self updatefoodValue:value];
+    double middleValue = lastValue + (((lastValue + (_foodValue - lastValue) / 2.0) >= 0) ? (_foodValue - lastValue) / 2.0 : (lastValue - _foodValue) / 2.0);
+    
+    // Needle animation to target value
+    // An intermediate "middle" value is used to make sure the needle will follow the right rotation direction
+    
+    CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.removedOnCompletion = YES;
+    animation.duration = animated ? duration : 0.0;
+    animation.delegate = self;
+    animation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:lastValue]  , 0, 0, 1.0)],
+                         [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:middleValue], 0, 0, 1.0)],
+                         [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:_foodValue]     , 0, 0, 1.0)]];
+    
+    if ([_style conformsToProtocol:@protocol(WMGaugeViewStyle)] == NO || [_style needleLayer:foodTemlayer willMoveAnimated:animated duration:duration animation:animation] == NO)
+    {
+        foodTemlayer.transform = [[animation.values lastObject] CATransform3DValue];
+        [foodTemlayer addAnimation:animation forKey:kCATransition];
+    }
+}
 #pragma mark - CAAnimation delegate
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
