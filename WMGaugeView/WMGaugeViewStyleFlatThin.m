@@ -60,10 +60,10 @@
     screwLayer.fillColor = kNeedleScrewColor;
     
     // Screw shadow
-    screwLayer.shadowColor = [[UIColor blackColor] CGColor];
-    screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
-    screwLayer.shadowOpacity = 0.2;
-    screwLayer.shadowRadius = 2.0;
+    //screwLayer.shadowColor = [[UIColor blackColor] CGColor];
+    //screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
+    //screwLayer.shadowOpacity = 0.2;
+    //screwLayer.shadowRadius = 2.0;
     
     [layer addSublayer:screwLayer];
     
@@ -105,10 +105,10 @@
     screwLayer.fillColor = kNeedleScrewColor;
     
     // Screw shadow
-    screwLayer.shadowColor = [[UIColor blackColor] CGColor];
-    screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
-    screwLayer.shadowOpacity = 0.2;
-    screwLayer.shadowRadius = 2.0;
+    //screwLayer.shadowColor = [[UIColor blackColor] CGColor];
+    //screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
+    //screwLayer.shadowOpacity = 0.2;
+    //screwLayer.shadowRadius = 2.0;
     
     [layer addSublayer:screwLayer];
 

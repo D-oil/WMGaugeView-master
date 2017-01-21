@@ -34,8 +34,8 @@
     
     /*background layer*/
     CAShapeLayer *backgroundLayer;
-
-    
+    CAShapeLayer *backgroundPointLayer;
+    CAShapeLayer *backgroundPointLineLayer;
     
     /* Needle layer */
     CALayer *rootNeedleLayer;
@@ -186,6 +186,7 @@
     // Drawing background in view
     [background drawInRect:rect];
     
+    
     if (backgroundLayer == nil) {
         
         backgroundLayer = [CAShapeLayer layer];
@@ -209,7 +210,61 @@
         [self.layer addSublayer: backgroundLayer];
         
     }
+    //举例,圆O的圆心为(a,b),半径为R,点A与到X轴的为角α.
+    //则点A的坐标为(a+R*cosα,b+R*sinα)
+    
+    
+    if (backgroundPointLayer == nil) {
+        NSInteger startAngle = 240;
+        
+        UInt8 R = 128;
+        UInt8 G = 255;
+        UInt8 B = 255;
+        for (int i = 0 ; i <= 100  ; i++ ) {
+            
+            backgroundPointLayer = [CAShapeLayer layer];
+            CGPoint point = [WMGaugeView calcCircleCoordinateWithCenter:CGPointMake(self.frame.size.width / 2 -(self.frame.size.width / 2)*0.01, self.frame.size.height /2) andWithAngle:startAngle andWithRadius:self.frame.size.width / 2 -(self.frame.size.width / 2)*0.015];
+            UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(point.x, point.y, (self.frame.size.width / 2)*0.015, (self.frame.size.width / 2)*0.015)];
+            [path closePath];
+            backgroundPointLayer.path = path.CGPath;
+          
+            backgroundPointLayer.fillColor = RGB(R, G, B).CGColor;
+            if (i < 33) {
+                R < 255 ? R += 3 : 0;
+                B > 128 ? B -= 3 : 0;
+            } else if (i < 66){
+                G > 0 ? G -= 6 : 0;
+                B > 0 ? B -= 3 : 0;
+            } else if (i < 100){
+                R > 255 ? R -= 3 : 0;
+            }
+            [self.layer addSublayer: backgroundPointLayer];
+            startAngle -=3;
+        }
+        
+    }
+    
+    if (backgroundPointLineLayer == nil) {
+        
+        
+        float numOfLinePoint = 0;
+        numOfLinePoint = (self.frame.size.width / 4) / ((self.frame.size.width / 2)*0.015);
+        
+        for (int i = 0 ;  i <= numOfLinePoint; i++) {
+            
+            backgroundPointLineLayer = [CAShapeLayer layer];
+            
+            CGPoint point = [WMGaugeView calcCircleCoordinateWithCenter:CGPointMake(self.frame.size.width / 2 - self.frame.size.width / 2*0.01, self.frame.size.height /2) andWithAngle:140 andWithRadius:self.frame.size.width / 8 /*- (self.frame.size.width / 2)*0.015*/];
+            
+            UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(point.x -self.frame.size.width / 4  +i *(self.frame.size.width / 2)*0.015, point.y-self.frame.size.width / 4 + i *(self.frame.size.width / 2)*0.015, (self.frame.size.width / 2)*0.015, (self.frame.size.width / 2)*0.015)];
+            backgroundPointLineLayer.path = path.CGPath;
+            [path closePath];
+            backgroundPointLineLayer.fillColor = [UIColor redColor].CGColor;
+            [self.layer addSublayer: backgroundPointLineLayer];
 
+        }
+        
+    }
     //
     if (rootNeedleLayer == nil)
     {
@@ -259,6 +314,12 @@
     }
    
 
+}
+
++(CGPoint) calcCircleCoordinateWithCenter:(CGPoint) center  andWithAngle : (CGFloat) angle andWithRadius: (CGFloat) radius{
+    CGFloat x2 = radius*cosf(angle*M_PI/180);
+    CGFloat y2 = radius*sinf(angle*M_PI/180);
+    return CGPointMake(center.x+x2, center.y-y2);
 }
 
 /**

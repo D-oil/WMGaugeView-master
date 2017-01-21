@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,21 +28,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ct-Ov-IxY" customClass="WMGaugeView">
-                                <rect key="frame" x="25" y="156" width="322" height="322"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ct-Ov-IxY" customClass="WMGaugeView">
+                                <rect key="frame" x="25" y="313" width="334" height="334"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4ct-Ov-IxY" secondAttribute="height" multiplier="1:1" id="7sl-QD-8zU"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cJt-tG-aWx">
-                                <rect key="frame" x="164" y="55" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="change:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="b18-98-HvP"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.57647058823529407" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4ct-Ov-IxY" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="9" id="Uoh-fq-GCb"/>
+                            <constraint firstItem="6lN-yd-2Vf" firstAttribute="top" secondItem="4ct-Ov-IxY" secondAttribute="bottom" constant="20" id="XMQ-7W-evd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4ct-Ov-IxY" secondAttribute="trailing" id="xeB-WQ-cHF"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="gaugeView2" destination="4ct-Ov-IxY" id="E5k-GQ-D9g"/>

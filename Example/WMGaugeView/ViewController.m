@@ -13,7 +13,7 @@
 
 @interface ViewController ()
 
-
+@property (nonatomic,assign) NSInteger i;
 @property (strong, nonatomic) IBOutlet WMGaugeView *gaugeView2;
 
 @end
@@ -40,11 +40,11 @@
     _gaugeView2.scaleDivisionsWidth = 0.004;
     _gaugeView2.scaleDivisionsLength = 0.004;
     
-//    [NSTimer scheduledTimerWithTimeInterval:2.0
-//                                     target:self
-//                                   selector:@selector(gaugeUpdateTimer:)
-//                                   userInfo:nil
-//                                    repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:2
+                                     target:self
+                                   selector:@selector(gaugeUpdateTimer:)
+                                   userInfo:nil
+                                    repeats:YES];
 }
 - (IBAction)change:(id)sender {
     [self gaugeUpdateTimer:nil];
@@ -57,6 +57,9 @@
     [_gaugeView2 setValue:rand()%(int)_gaugeView2.maxValue animated:YES duration:1.6 completion:^(BOOL finished) {
         NSLog(@"gaugeView2 animation complete");
     }];
+    //[_gaugeView2 setValue:_i-- animated:YES duration:0.5 completion:^(BOOL finished) {
+     //   NSLog(@"gaugeView2 animation complete");
+    //}];
 
     [_gaugeView2 setTagTmpValue:arc4random()%(int)_gaugeView2.maxValue animated:YES duration:1.6 completion:^(BOOL finished) {
         NSLog(@"gaugeView2 setTagTmpValue animation complete");
