@@ -9,8 +9,8 @@
 #import "WMGaugeViewStyleFlatThin.h"
 
 #define kNeedleWidth        0.1
-#define kNeedleHeight       0.35
-#define kNeedleScrewRadius  0.28
+#define kNeedleHeight       0.38
+#define kNeedleScrewRadius  0.32
 
 #define kCenterX            0.5
 #define kCenterY            0.5

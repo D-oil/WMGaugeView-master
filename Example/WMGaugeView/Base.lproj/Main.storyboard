@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -23,28 +23,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="clP-EX-e2b" customClass="WMGaugeView">
-                                <rect key="frame" x="25" y="20" width="101" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ct-Ov-IxY" customClass="WMGaugeView">
-                                <rect key="frame" x="25" y="313" width="334" height="334"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jEL-Mj-pZh" customClass="ADSlideBar">
+                                <rect key="frame" x="20" y="28" width="334" height="334"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="4ct-Ov-IxY" secondAttribute="height" multiplier="1:1" id="7sl-QD-8zU"/>
+                                    <constraint firstAttribute="width" constant="334" id="0Mp-nr-JiD"/>
+                                    <constraint firstAttribute="height" constant="334" id="blL-w1-yyy"/>
                                 </constraints>
+                            </view>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bOi-ML-5pi">
+                                <rect key="frame" x="18" y="383" width="280" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="changeValue:" destination="vXZ-lx-hvc" eventType="valueChanged" id="plb-da-j2W"/>
+                                </connections>
+                            </slider>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ct-Ov-IxY" customClass="WMGaugeView">
+                                <rect key="frame" x="20" y="507" width="334" height="334"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.57647058823529407" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="4ct-Ov-IxY" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="9" id="Uoh-fq-GCb"/>
-                            <constraint firstItem="6lN-yd-2Vf" firstAttribute="top" secondItem="4ct-Ov-IxY" secondAttribute="bottom" constant="20" id="XMQ-7W-evd"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4ct-Ov-IxY" secondAttribute="trailing" id="xeB-WQ-cHF"/>
+                            <constraint firstItem="jEL-Mj-pZh" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="4" id="JIK-Qn-gEO"/>
+                            <constraint firstItem="jEL-Mj-pZh" firstAttribute="top" secondItem="pJ6-hb-4FV" secondAttribute="bottom" constant="8" id="JQM-aE-JQU"/>
+                            <constraint firstItem="jEL-Mj-pZh" firstAttribute="width" secondItem="jEL-Mj-pZh" secondAttribute="height" multiplier="1:1" id="pnM-5J-ShK"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="gaugeView2" destination="4ct-Ov-IxY" id="E5k-GQ-D9g"/>
+                        <outlet property="process" destination="jEL-Mj-pZh" id="Jgx-sq-dzC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

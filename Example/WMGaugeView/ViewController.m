@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "WMGaugeView.h"
+#import "ADSlideBar.h"
 
 #define RGB(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
 
@@ -15,6 +16,7 @@
 
 @property (nonatomic,assign) NSInteger i;
 @property (strong, nonatomic) IBOutlet WMGaugeView *gaugeView2;
+@property (weak, nonatomic) IBOutlet ADSlideBar *process;
 
 @end
 
@@ -46,9 +48,12 @@
                                    userInfo:nil
                                     repeats:YES];
 }
-- (IBAction)change:(id)sender {
-    [self gaugeUpdateTimer:nil];
+
+- (IBAction)changeValue:(UISlider *)sender {
+    self.process.progress = sender.value;
 }
+
+
 
 -(void)gaugeUpdateTimer:(NSTimer *)timer
 {
